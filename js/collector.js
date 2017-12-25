@@ -13,6 +13,8 @@ raycaster.far = 300;
 let cameraDirection = new THREE.Vector3();
 let intersectPoint = new THREE.Vector3();
 
+let callbacksSet = false;
+
 /**
  * Sets the new camera to collect data
  * @memberof VadrObjects
@@ -22,6 +24,9 @@ const setCamera = (newCamera) => {
 
     camera = newCamera;
     threeCamera = camera.object3D
+    
+    if (!callbacksSet)
+        setDataCallbacks();
 
 };
 
@@ -39,6 +44,10 @@ const getVectorString = (vector) => {
 
 const getPosition = () => {
 
+    if (camera == null){
+        return null;
+    }
+
     const position = camera.getAttribute('position');
     // inverting y coord to convert from left handed in AFrame to right handed in VadR
     return getVectorString(position, false);
@@ -46,6 +55,10 @@ const getPosition = () => {
 };
 
 const getAngle = () => {
+
+    if (camera == null){
+        return null;
+    }
 
     const getNormalizedX = (rotationX) => {
 
@@ -74,6 +87,10 @@ const getAngle = () => {
 };
 
 const getGazePoint = () => {
+
+    if (camera == null){
+        return null;
+    }
 
     threeCamera.getWorldDirection(cameraDirection);
     raycaster.set(threeCamera.position, cameraDirection.multiplyScalar(-1));
@@ -105,13 +122,22 @@ function setDataCallbacks(){
     vadrCore.dataCallbacks.setPositionCallback(getPosition);
     vadrCore.dataCallbacks.setGazeCallback(getGazePoint);
     vadrCore.dataCallbacks.setAngleCallback(getAngle);
+    
+    callbacksSet = true;
+
+}
+
+function destroy(){
+
+    camera = null;
+    scene = null;
+    callbacksSet = false;
 
 }
 
 export default {
     setCamera,
     setScene,
-    setDataCallbacks,
     getGazePoint,
     getAngle,
     getPosition

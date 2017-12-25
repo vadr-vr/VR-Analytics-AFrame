@@ -28,22 +28,18 @@ AFRAME.registerComponent('vadr-analytics', {
 
         currentScene.addEventListener('camera-set-active', (event) => {
             
-            window.vadrEvent = event;
             dataCollector.setCamera(event.detail.cameraEl);
-            dataCollector.setDataCallbacks();
-            recordDemoData();
+            // recordDemoData();
             
         });
 
         currentScene.addEventListener('enter-vr', () => {
 
-            console.log('vadrAnalytics VR Entered');
             vadrCore.playState.headsetApplied();
 
         });
         currentScene.addEventListener('exit-vr', () => {
 
-            console.log('vadrAnalytics VR Exit');
             vadrCore.playState.headsetRemoved();
 
         });
@@ -56,14 +52,12 @@ AFRAME.registerComponent('vadr-analytics', {
 
     play: function(){
 
-        console.log('vadrAnalytics app in focus');
         vadrCore.playState.appInFocus();
 
     },
 
     pause: function(){
 
-        console.log('vadrAnalytics app out of focus');
         vadrCore.playState.appOutOfFocus();
 
     },
@@ -86,9 +80,7 @@ AFRAME.registerComponent('vadr-analytics', {
 });
 
 export default {
-    'getGaze': dataCollector.getGazePoint,
-    'getPosition': dataCollector.getPosition,
-    'getAngle': dataCollector.getAngle,
+    setCamera: dataCollector.setCamera,
     registerEvent: vadrCore.registerEvent,
     media: vadrCore.media,
     scene: vadrCore.scene,
