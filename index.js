@@ -81,12 +81,13 @@ AFRAME.registerComponent('vadr-analytics', {
 
 export default {
     setCamera: dataCollector.setCamera,
-    registerEvent: vadrCore.registerEvent,
+    user: vadrCore.user,
+    setSessionInfo: vadrCore.setSessionInfo,
     media: vadrCore.media,
     scene: vadrCore.scene,
-    user: vadrCore.user,
-    setLogLevel: vadrCore.setLogLevel,
-    playState: vadrCore.playState
+    registerEvent: vadrCore.registerEvent,
+    playState: vadrCore.playState,
+    setLogLevel: vadrCore.setLogLevel
 };
 
 let vadrDelay = function(t) {
