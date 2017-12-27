@@ -1,6 +1,6 @@
 {
   "name": "vadr-aframe-vr",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Analytics package for AFrame based VR applications by VadR",
   "main": "index.js",
   "scripts": {
