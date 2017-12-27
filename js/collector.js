@@ -1,5 +1,4 @@
-import vadrCore from '../vadrjscore/index.js';
-
+import vadrCore from 'vadr-core-vr';
 /**
  * @module DataCollector
  * @description Platform specific implementation to calculate data

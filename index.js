@@ -1,4 +1,4 @@
-import vadrCore from './vadrjscore/index.js';
+import vadrCore from 'vadr-core-vr';
 import dataCollector from './js/collector';
 
 vadrCore.config.setSdk('AFrame');
@@ -20,7 +20,6 @@ AFRAME.registerComponent('vadr-analytics', {
         
         const currentScene = this.el.sceneEl;
         dataCollector.setScene(currentScene.object3D);
-        window.currentScene = currentScene;
 
         vadrCore.setDataConfig.performance(true, 1000);
         vadrCore.setDataConfig.orientation(true, 300);
@@ -29,7 +28,6 @@ AFRAME.registerComponent('vadr-analytics', {
         currentScene.addEventListener('camera-set-active', (event) => {
             
             dataCollector.setCamera(event.detail.cameraEl);
-            // recordDemoData();
             
         });
 
@@ -89,91 +87,3 @@ export default {
     playState: vadrCore.playState,
     setLogLevel: vadrCore.setLogLevel
 };
-
-let vadrDelay = function(t) {
-    return new Promise(function(resolve) { 
-        console.log('vadrDebug setting delay of ', t);
-        setTimeout(resolve, t * 1000)
-    });
-}
-
-function recordDemoData(){
-
-    // let the scene plat for 75 seconds
-    vadrDelay(15)
-        .then(() => {
-
-            // change scene to scene 2
-            console.log('vadrDebug adding scene 2');
-            vadrCore.scene.addScene('64');
-
-            // let scene 2 play for 40 sec
-            return vadrDelay(20);
-
-        })
-        .then(() => {
-
-            console.log('vadrDebug adding scene 1 back');
-            vadrCore.scene.closeScene();
-            vadrCore.scene.addScene('63');
-
-            // play scene for 20 sec, then add video media
-            return vadrDelay(20);
-
-        })
-        .then(() => {
-
-            console.log('vadrDebug starting video 1');
-            vadrCore.media.addMedia('TestMedia1', 'Test Media Video 1', 1);
-
-            // play video for 50 sec
-            return vadrDelay(15);
-
-        })
-        .then(() => {
-
-            // pause media
-            console.log('vadrDebug pausing video 1');
-            vadrCore.media.pauseMedia();
-
-            //play after 5 sec
-            return vadrDelay(5);
-
-        })
-        .then(() => {
-
-            console.log('vadrDebug playing again video 1');
-            vadrCore.media.playMedia();
-
-            // play video for next 5 sec
-            return vadrDelay(5);
-
-        })
-        .then(() => {
-
-            // switch to photo
-            console.log('vadrDebug starting photo 1');
-            vadrCore.media.addMedia('TestMedia2', 'Test Media Photo 1', 2);
-            
-            // stay at photo for 25 min
-            return vadrDelay(15);
-
-        })
-        .then(() => {
-
-            // close photo 
-            console.log('vadrDebug closing media');
-            vadrCore.media.closeMedia();
-
-            // stay at scene for 10 sec
-            return vadrDelay(10);
-
-        })
-        .then(() => {
-
-            vadrCore.scene.closeScene();
-            console.log('vadrDebug closing all scenes');
-
-        });
-
-}
