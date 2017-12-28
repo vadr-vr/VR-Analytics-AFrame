@@ -81,6 +81,7 @@ export default {
     setCamera: dataCollector.setCamera,
     user: vadrCore.user,
     setSessionInfo: vadrCore.setSessionInfo,
+    setDataConfig: vadrCore.setDataConfig,
     media: vadrCore.media,
     scene: vadrCore.scene,
     registerEvent: vadrCore.registerEvent,
