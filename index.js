@@ -2,6 +2,7 @@ import vadrCore from 'vadr-core-vr';
 import dataCollector from './js/collector';
 
 vadrCore.config.setSdk('AFrame');
+vadrCore.config.setRequestUrl('https://dev.vadr.io/analytics/api/v1.1/register/data/');
 
 AFRAME.registerComponent('vadr-analytics', {
     schema: {
@@ -19,6 +20,7 @@ AFRAME.registerComponent('vadr-analytics', {
         vadrCore.config.setTestMode(this.data.testMode);
         
         const currentScene = this.el.sceneEl;
+        dataCollector.init();
         dataCollector.setScene(currentScene.object3D);
 
         vadrCore.setDataConfig.performance(true, 1000);
@@ -79,6 +81,7 @@ AFRAME.registerComponent('vadr-analytics', {
 
 export default {
     setCamera: dataCollector.setCamera,
+    setLongitudeZeroOffset: dataCollector.setLongitudeZeroOffset,
     user: vadrCore.user,
     setSessionInfo: vadrCore.setSessionInfo,
     setDataConfig: vadrCore.setDataConfig,
@@ -86,5 +89,6 @@ export default {
     scene: vadrCore.scene,
     registerEvent: vadrCore.registerEvent,
     playState: vadrCore.playState,
+    enums: vadrCore.enums,
     setLogLevel: vadrCore.setLogLevel
 };
