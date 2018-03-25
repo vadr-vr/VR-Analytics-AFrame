@@ -2,7 +2,6 @@ import vadrCore from 'vadr-core-vr';
 import dataCollector from './js/collector';
 
 vadrCore.config.setSdk('AFrame');
-vadrCore.config.setRequestUrl('https://dev.vadr.io/analytics/api/v1.1/register/data/');
 
 AFRAME.registerComponent('vadr-analytics', {
     schema: {
@@ -43,13 +42,29 @@ AFRAME.registerComponent('vadr-analytics', {
             vadrCore.playState.headsetRemoved();
 
         });
-            
+
+        document.addEventListener('visibilitychange', this.handeVisibilityChange.bind(this));
+    
         vadrCore.initVadRAnalytics();
         vadrCore.scene.addScene(this.data.sceneId);
 
 
     },
 
+    handeVisibilityChange: function(){
+
+        if (document.visibilityState == 'visible'){
+            
+            this.play();
+    
+        }else{
+    
+            this.pause();
+    
+        }
+    
+    },
+    
     play: function(){
 
         vadrCore.playState.appInFocus();
@@ -74,6 +89,7 @@ AFRAME.registerComponent('vadr-analytics', {
 
     remove: function(){
 
+        document.removeEventListener('visibilityChange', this.handeVisibilityChange);
         vadrCore.destroy();
 
     }
