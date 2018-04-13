@@ -7,18 +7,29 @@ AFRAME.registerComponent('vadr-analytics', {
     schema: {
         appId: {type: 'string'},
         appToken: {type: 'string'},
-        sceneId: {type: 'string'},
+        sceneId: {type: 'string', default: ""},
+        sceneName: {type: 'string', default: ""},
         testMode: {type: 'boolean', default: false},
         version: {type: 'string', default: '1.0.0'}
     },
     
     init: function () {
 
+        const currentScene = this.el.sceneEl;
+        const sceneId = this.data.sceneId;
+        const sceneName = this.data.sceneName;
+
+        if (!sceneId && !sceneName){
+            
+            vadrCore.logger.error('Either SceneId or SceneName required for scene initialization.');
+            return;
+
+        }
+
         vadrCore.config.setApplication(this.data.appId, this.data.appToken, 
             this.data.version);
         vadrCore.config.setTestMode(this.data.testMode);
         
-        const currentScene = this.el.sceneEl;
         dataCollector.init();
         dataCollector.setScene(currentScene.object3D);
 
@@ -46,8 +57,8 @@ AFRAME.registerComponent('vadr-analytics', {
         document.addEventListener('visibilitychange', this.handeVisibilityChange.bind(this));
     
         vadrCore.initVadRAnalytics();
-        vadrCore.scene.addScene(this.data.sceneId);
 
+        vadrCore.scene.addScene(sceneId, sceneName);
 
     },
 
