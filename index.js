@@ -104,6 +104,7 @@ AFRAME.registerComponent('vadr-analytics', {
         vadrCore.destroy();
 
     }
+    
 });
 
 export default {
